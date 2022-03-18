@@ -2,6 +2,8 @@ package com.bmsrestfulapi.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class AccountInfo {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer accountNo;
 	private Integer currentBalance;
 	private String accountType;

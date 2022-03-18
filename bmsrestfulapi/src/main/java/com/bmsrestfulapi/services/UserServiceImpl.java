@@ -7,38 +7,50 @@ import org.springframework.stereotype.Service;
 
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.User;
-import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
+import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
+import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
 import com.bmsrestfulapi.repositories.LoginRepository;
 import com.bmsrestfulapi.repositories.UserRepository;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
 	private LoginRepository loginRepository;
-	
-	
 
 	@Override
-	public String createUser(User user) {
-		 User u = userRepository.save(user);
-		 if(u!=null) {
-			 return "User created Successfully/nDetails:\n" + user;
-		 }
-		 return null;// will return UserNotCreatedException
-	}
+	public String createUser(User user) throws UserNotCreatedException {
+		if (userRepository.existsById(user.getUserId())) {
+			throw new UserNotCreatedException("Error creating user!\nUser already exist.");
+		} else if (user.getName().equals("string") || user.getAddress().equals("string") || user.getContactNo() == 0
+				|| user.getGender().equals("string") || user.getPin() == 0 || user == null) {
+			throw new UserNotCreatedException("Error creating user!\nPlease check details.");
 
-	@Override
-	public String login(Integer accountNo, String password) throws InvalidCredentialsException {
-		Login login = loginRepository.getCredentials(accountNo, password);
-		if(login!=null) {
-			login.setLogin(true);
-			loginRepository.save(login);
+		} else {
+			User u = userRepository.save(user);
+			return "User created Successfully/nDetails:\n" + user;
 		}
-		throw new InvalidCredentialsException("Please check your Login Credentials!"); // will return InvalidCredentialsException
 	}
 
+	@Override
+	public String login(Integer accountNo, String password)
+			throws InvalidLoginCredentialsException, UserNotVerifiedException {
+		Login login = loginRepository.getCredentials(accountNo, password);
+		if (login != null) {
+			if (login.isVerified()) {
+				login.setLogin(true);
+				loginRepository.save(login);
+				return "Successful login";
+			} else {
+				throw new UserNotVerifiedException("You are not verified, Please wait until Admin verifies you.");
+			}
+
+		}
+		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
+
+	}
 }

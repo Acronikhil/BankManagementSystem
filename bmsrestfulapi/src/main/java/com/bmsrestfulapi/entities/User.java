@@ -1,11 +1,12 @@
 package com.bmsrestfulapi.entities;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -13,12 +14,11 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-
 @Entity
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotNull(message = "UserId cannot be null")
 	private Integer userId;
 	private String address;
@@ -27,16 +27,17 @@ public class User {
 	private LocalDate dob;
 	private Long contactNo;
 	private String gender;
-	@OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH,CascadeType.MERGE,
-			  CascadeType.PERSIST,CascadeType.REFRESH})  //inverse side
+
+	@OneToOne(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }) // inverse side
 	private Role role;
-	
-	@OneToMany(mappedBy = "user"    ,cascade = {CascadeType.DETACH,CascadeType.MERGE,
-			  CascadeType.PERSIST,CascadeType.REFRESH})  //inverse side
+
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH }) // inverse side
 	@JsonIgnoreProperties
 	private List<AccountInfo> accountList;
-	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)  //inverse side
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL) // inverse side
 	private Login login;
 
 	public User() {
@@ -53,6 +54,7 @@ public class User {
 		this.dob = dob;
 		this.contactNo = contactNo;
 		this.gender = gender;
+
 	}
 
 	public Integer getUserId() {
@@ -114,7 +116,8 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", address=" + address + ", name=" + name + ", pin=" + pin + ", dob=" + dob
-				+ ", contactNo=" + contactNo + ", gender=" + gender + "]";
+				+ ", contactNo=" + contactNo + ", gender=" + gender + ", role=" + role + ", accountList=" + accountList
+				+ ", login=" + login + "]";
 	}
 
 }

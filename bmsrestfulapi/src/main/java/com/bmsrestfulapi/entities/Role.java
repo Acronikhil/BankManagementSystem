@@ -2,6 +2,8 @@ package com.bmsrestfulapi.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,11 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Role {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer roleId;
 	// private Integer userId;
 	private String roleName;
 	@OneToOne(cascade = CascadeType.ALL)
-	 @JoinColumn(name = "user_id", referencedColumnName = "userId") //owning side
+	@JoinColumn(name = "user_id", referencedColumnName = "userId") // owning side
 	@JsonIgnoreProperties
 	private User user;
 
@@ -62,4 +65,3 @@ public class Role {
 	}
 
 }
-
