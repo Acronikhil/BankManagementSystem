@@ -1,8 +1,16 @@
 package com.bmsrestfulapi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface LoginRepository //extends JpaRepository<Login, Intege>
-{
+import com.bmsrestfulapi.entities.Login;
+
+public interface LoginRepository extends JpaRepository<Login, Integer> {
+	@Query(" from login l where l.accountNo=:accountNo and l.password=:password")
+	public Login getCredentials(@Param(value="accountNo") Integer accountNo, @Param(value="password") String password);
+	
+	
+	
 
 }

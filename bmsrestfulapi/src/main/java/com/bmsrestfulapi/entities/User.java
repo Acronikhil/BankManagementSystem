@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
 
 	@Id
+	@NotNull(message = "UserId cannot be null")
 	private Integer userId;
 	private String address;
 	private String name;
@@ -39,7 +41,6 @@ public class User {
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public User(Integer userId, String address, String name, Integer pin, LocalDate dob, Long contactNo,
