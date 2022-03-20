@@ -10,7 +10,9 @@ import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
+import com.bmsrestfulapi.repositories.AccountInfoRepository;
 import com.bmsrestfulapi.repositories.LoginRepository;
+import com.bmsrestfulapi.repositories.RoleRepository;
 import com.bmsrestfulapi.repositories.UserRepository;
 
 @Service
@@ -21,6 +23,10 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private LoginRepository loginRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private AccountInfoRepository accountInfoRepository;
 
 	@Override
 	public String createUser(User user) throws UserNotCreatedException {
@@ -53,4 +59,28 @@ public class UserServiceImpl implements UserService {
 		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
 
 	}
+
+	@Override
+	public String verifyUser(User user) {
+		return null;
+	}
+
+	@Override
+	public String adminLogin(Integer accountNo, String password)
+			throws InvalidLoginCredentialsException, UserNotVerifiedException {
+		Login login = loginRepository.getCredentials(accountNo, password);
+		if (login != null) {
+			Integer userId = accountInfoRepository.getUserIdByAccountNot(accountNo);
+			String role = roleRepository.getRole(userId).toLowerCase();
+			if (role.equals("admin")) {
+				login.setLogin(true);
+				loginRepository.save(login);
+				return "Successful login";
+			} else {
+				throw new UserNotVerifiedException("You are not verified, Please wait until Admin verifies you.");
+			}
+		}
+		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
+	}
+	
 }

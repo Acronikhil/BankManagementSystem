@@ -37,5 +37,9 @@ public class UserController {
 	public  ResponseEntity<String> loginUser(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
 		return new ResponseEntity<String>(userService.login(accountNo, password), HttpStatus.OK);
 	}
-
+   
+	@PostMapping("/adminlogin")
+	public  ResponseEntity<String> adminLogin(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
+		return new ResponseEntity<String>(userService.adminLogin(accountNo, password), HttpStatus.OK);
+	}
 }

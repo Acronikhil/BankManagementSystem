@@ -12,4 +12,7 @@ public interface UserService {
 	// login user
 	public String login(Integer accNo, String password) throws InvalidLoginCredentialsException, UserNotVerifiedException;
 
+	public String verifyUser(User user);
+	
+	public String adminLogin(Integer accNo, String password) throws InvalidLoginCredentialsException, UserNotVerifiedException;
 }
