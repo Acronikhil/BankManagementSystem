@@ -1,5 +1,7 @@
 package com.bmsrestfulapi.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
+	
+	@Override
+	public List<User> getAllNotVerifiedUser() {
+		return userRepository.getNotVerifiedUsers();
+	}
 
 	@Override
 	public String createUser(User user) throws UserNotCreatedException {
@@ -62,6 +69,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String verifyUser(User user) {
+		user.getLogin().setVerified(true);
+		userRepository.save(user);
 		return null;
 	}
 
@@ -75,12 +84,14 @@ public class UserServiceImpl implements UserService {
 			if (role.equals("admin")) {
 				login.setLogin(true);
 				loginRepository.save(login);
-				return "Successful login";
+				return "Admin Successfully loggedin";
 			} else {
-				throw new UserNotVerifiedException("You are not verified, Please wait until Admin verifies you.");
+				throw new UserNotVerifiedException("You are not admin, Please contact with BM.");
 			}
 		}
 		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
 	}
+
+	
 	
 }
