@@ -25,4 +25,10 @@ public class UserExceptionsAdvice {
 		return ex.getMessage();
 	}
 
+	@ExceptionHandler(InvalidCredentialsException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String invalidCredentials(InvalidCredentialsException ex) {
+		return ex.getMessage();
+	}
+
 }

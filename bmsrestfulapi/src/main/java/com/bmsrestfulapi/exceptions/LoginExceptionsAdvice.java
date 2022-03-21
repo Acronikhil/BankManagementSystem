@@ -12,5 +12,5 @@ public class LoginExceptionsAdvice {
 	String invalidLoginCredentials(InvalidLoginCredentialsException ex) {
 		return ex.getMessage();
 	}
-
+    
 }

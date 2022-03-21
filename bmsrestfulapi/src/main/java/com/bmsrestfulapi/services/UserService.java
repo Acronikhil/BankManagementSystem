@@ -3,6 +3,7 @@ package com.bmsrestfulapi.services;
 import java.util.List;
 
 import com.bmsrestfulapi.entities.User;
+import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
@@ -22,4 +23,10 @@ public interface UserService {
 	public String verifyUser(User user);
 	
 	public String adminLogin(Integer accNo, String password) throws InvalidLoginCredentialsException, UserNotVerifiedException;
+	
+	public String checkBalance(Integer pin, Integer userId) throws InvalidCredentialsException;
+	
+	public String withdrawMoney(Integer pin, Integer amount, Integer accountNo) throws InvalidCredentialsException;
+	
+	public String moneyTransfer(Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo) throws InvalidCredentialsException;
 }
