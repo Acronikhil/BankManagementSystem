@@ -1,5 +1,6 @@
 package com.bmsrestfulapi.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.entities.Login;
+import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
@@ -29,12 +33,22 @@ public class UserController {
 	}
 	
 	@GetMapping("/getAllNonVerifiedUsers")
-	private ResponseEntity<List<User>> getAllNonVerifiedUsers() {
-		return new ResponseEntity<List<User>>(userService.getAllNotVerifiedUser(),HttpStatus.OK);
+	private ResponseEntity<?> getAllNonVerifiedUsers() {
+		return new ResponseEntity<>(userService.getAllNotVerifiedUser(),HttpStatus.OK);
 	}
 
 	@PostMapping("/create")
 	public ResponseEntity<String> createUser(@RequestBody User user) throws UserNotCreatedException {
+		Role r = new Role(user);
+		AccountInfo ai = new AccountInfo(user);
+		List<AccountInfo> accountList = new ArrayList<>();
+		accountList.add(ai);
+		Login l = new Login(user,ai);
+		
+		user.setRole(r);
+		user.setLogin(l);
+		user.setAccountList(accountList);
+		
 		return new ResponseEntity<String>(userService.createUser(user), HttpStatus.CREATED);
 
 	}
