@@ -1,34 +1,49 @@
 package com.bmsrestfulapi.entities;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@Table(name = "account_info")
 public class AccountInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer accountNo;
-	private Integer currentBalance;
-	private String accountType;
+	private Integer currentBalance = 0;
+	private String accountType = "saving";
 	// private Integer userId;
 
-	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	@JoinColumn(name = "user_id", referencedColumnName = "userId")  
+	@ManyToOne(cascade =CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", referencedColumnName = "userId")
 	@JsonIgnoreProperties
-	private User user;   
+	private User user;
 
 	public AccountInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public AccountInfo(User user) {
+		super();
+		this.currentBalance = 0;
+		this.accountType = "saving";
+		this.user = user;
+	}
+
+
 
 	public AccountInfo(Integer accountNo, Integer currentBalance, String accountType, User user) {
 		super();
@@ -73,7 +88,7 @@ public class AccountInfo {
 	@Override
 	public String toString() {
 		return "AccountInfo [accountNo=" + accountNo + ", currentBalance=" + currentBalance + ", accountType="
-				+ accountType + ", user=" + user + "]";
+				+ accountType + ", userId=" + user.getUserId() + "]";
 	}
 
 }

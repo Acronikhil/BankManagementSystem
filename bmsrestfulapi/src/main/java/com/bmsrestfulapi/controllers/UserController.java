@@ -1,5 +1,6 @@
 package com.bmsrestfulapi.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.entities.Login;
+import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.services.UserService;
@@ -33,6 +37,16 @@ public class UserController {
 
 	@PostMapping("/create")
 	public ResponseEntity<String> createUser(@RequestBody User user) throws UserNotCreatedException {
+		Role r = new Role(user);
+		AccountInfo ai = new AccountInfo(user);
+		List<AccountInfo> accountList = new ArrayList<AccountInfo>();
+		accountList.add(ai);
+		Login l = new Login(user,ai);
+		
+		user.setRole(r);
+		user.setLogin(l);
+		user.setAccountList(accountList);
+		
 		return new ResponseEntity<String>(userService.createUser(user), HttpStatus.CREATED);
 
 	}

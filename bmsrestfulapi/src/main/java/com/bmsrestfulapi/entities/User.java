@@ -5,17 +5,20 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -29,17 +32,13 @@ public class User {
 	private Long contactNo;
 	private String gender;
 
-	@OneToOne(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH }) // inverse side
-	@JsonIgnoreProperties
+	@OneToOne(mappedBy = "user",targetEntity = Role.class ,cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse side
 	private Role role;
 
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH }) // inverse side
-	@JsonIgnoreProperties
+	@OneToMany(mappedBy = "user",targetEntity = AccountInfo.class ,cascade = CascadeType.ALL,fetch = FetchType.LAZY) // inverse side
 	private List<AccountInfo> accountList;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL) // inverse side
+	@OneToOne(mappedBy = "user", targetEntity = Login.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse side
 	private Login login;
 
 	public User() {

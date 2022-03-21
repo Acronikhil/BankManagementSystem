@@ -7,7 +7,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
+import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
@@ -29,7 +31,8 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
-	
+
+
 	@Override
 	public List<User> getAllNotVerifiedUser() {
 		return userRepository.getNotVerifiedUsers();
@@ -45,6 +48,21 @@ public class UserServiceImpl implements UserService {
 
 		} else {
 			User u = userRepository.save(user);
+			u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
+
+			/*
+			 * Login l = new Login(); AccountInfo ai = new AccountInfo(); Role r = new
+			 * Role();
+			 * 
+			 * l.setAccountNo(ai.getAccountNo()); ai.setUser(user); r.setUser(user);
+			 * l.setUser(user); accountInfoRepository.save(ai); roleRepository.save(r);
+			 * loginRepository.save(l);
+			 */
+			
+			
+			
+			
+
 			return "User created Successfully/nDetails:\n" + user;
 		}
 	}
@@ -92,6 +110,4 @@ public class UserServiceImpl implements UserService {
 		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
 	}
 
-	
-	
 }
