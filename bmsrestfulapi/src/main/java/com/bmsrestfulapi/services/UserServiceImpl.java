@@ -7,9 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
-import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;

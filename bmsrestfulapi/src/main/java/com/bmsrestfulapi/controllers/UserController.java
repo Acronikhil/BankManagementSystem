@@ -31,15 +31,15 @@ public class UserController {
 	}
 	
 	@GetMapping("/getAllNonVerifiedUsers")
-	private ResponseEntity<List<User>> getAllNonVerifiedUsers() {
-		return new ResponseEntity<List<User>>(userService.getAllNotVerifiedUser(),HttpStatus.OK);
+	private ResponseEntity<?> getAllNonVerifiedUsers() {
+		return new ResponseEntity<>(userService.getAllNotVerifiedUser(),HttpStatus.OK);
 	}
 
 	@PostMapping("/create")
 	public ResponseEntity<String> createUser(@RequestBody User user) throws UserNotCreatedException {
 		Role r = new Role(user);
 		AccountInfo ai = new AccountInfo(user);
-		List<AccountInfo> accountList = new ArrayList<AccountInfo>();
+		List<AccountInfo> accountList = new ArrayList<>();
 		accountList.add(ai);
 		Login l = new Login(user,ai);
 		
