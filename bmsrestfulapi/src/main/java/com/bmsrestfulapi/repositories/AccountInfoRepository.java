@@ -6,9 +6,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.entities.User;
 
 @Repository
 public interface AccountInfoRepository extends JpaRepository<AccountInfo, Integer> {
 	@Query("select ai.user.userId from AccountInfo ai where ai.accountNo=:accountNo")
 	public Integer getUserIdByAccountNot(@Param(value="accountNo") Integer accountNo);
+	
+	@Query("select ai.currentBalance from AccountInfo ai where ai.user.userId=:userId")
+	public Integer getBalance(@Param(value="userId") Integer userId);
+	
+	@Query("from AccountInfo ai where ai.accountNo=:accountNo")
+	public AccountInfo getAccountNo(@Param(value = "accountNo") Integer accountNo);
+	
 }
