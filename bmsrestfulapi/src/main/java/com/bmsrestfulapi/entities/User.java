@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -30,6 +31,7 @@ public class User {
 
 	@OneToOne(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }) // inverse side
+	@JsonIgnoreProperties
 	private Role role;
 
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
@@ -111,6 +113,32 @@ public class User {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	
+	
+	@JsonIgnore
+	public Role getRole() {
+		return role;
+	}
+	@JsonIgnore
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	@JsonIgnore
+	public List<AccountInfo> getAccountList() {
+		return accountList;
+	}
+	@JsonIgnore
+	public void setAccountList(List<AccountInfo> accountList) {
+		this.accountList = accountList;
+	}
+	@JsonIgnore
+	public Login getLogin() {
+		return login;
+	}
+	@JsonIgnore
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 	@Override
