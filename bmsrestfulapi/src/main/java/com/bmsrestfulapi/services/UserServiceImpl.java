@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			User u = userRepository.save(user);
 			u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-			return "User created Successfully/nDetails:\n" + user;
+			return "User created Successfully\nDetails:\n" + user;
 		}
 	}
 
