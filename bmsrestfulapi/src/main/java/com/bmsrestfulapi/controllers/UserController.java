@@ -26,15 +26,15 @@ import com.bmsrestfulapi.services.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/")
 	private String defaultMessage() {
 		return "User Home Page";
 	}
-	
+
 	@GetMapping("/getAllNonVerifiedUsers")
 	private ResponseEntity<?> getAllNonVerifiedUsers() {
-		return new ResponseEntity<>(userService.getAllNotVerifiedUser(),HttpStatus.OK);
+		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 
 	@PostMapping("/create")
@@ -43,35 +43,39 @@ public class UserController {
 		AccountInfo ai = new AccountInfo(user);
 		List<AccountInfo> accountList = new ArrayList<>();
 		accountList.add(ai);
-		Login l = new Login(user,ai);
-		
+		Login l = new Login(user, ai);
+
 		user.setRole(r);
 		user.setLogin(l);
 		user.setAccountList(accountList);
-		
+
 		return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
 
 	}
-	
+
 	@PostMapping("/verify")
 	public ResponseEntity<String> verifyUser(@RequestParam Integer userId) {
 		return new ResponseEntity<>(userService.verifyUser(userId), HttpStatus.OK);
 
 	}
-	
+
 	@PostMapping("/checkbalance")
-	public ResponseEntity<String> checkBalance(@RequestParam Integer pin, Integer userId) throws InvalidCredentialsException{
-		return new ResponseEntity<>(userService.checkBalance(pin,userId), HttpStatus.OK);
+	public ResponseEntity<String> checkBalance(@RequestParam Integer pin, Integer userId)
+			throws InvalidCredentialsException {
+		return new ResponseEntity<>(userService.checkBalance(pin, userId), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/withdrawmoney")
-	public ResponseEntity<String> withdrawMoney(@RequestParam Integer pin, Integer amount, Integer accountNo) throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.withdrawMoney(pin,amount, accountNo), HttpStatus.OK);
+	public ResponseEntity<String> withdrawMoney(@RequestParam Integer pin, Integer amount, Integer accountNo)
+			throws InvalidCredentialsException {
+		return new ResponseEntity<>(userService.withdrawMoney(pin, amount, accountNo), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/moneytransfer")
-	public ResponseEntity<String> transferMoney(@RequestParam Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo) throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo), HttpStatus.OK);
+	public ResponseEntity<String> transferMoney(@RequestParam Integer pin, Integer amount, Integer accountNo,
+			Integer receiversAccountNo) throws InvalidCredentialsException {
+		return new ResponseEntity<>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo),
+				HttpStatus.OK);
 	}
-	
+
 }
