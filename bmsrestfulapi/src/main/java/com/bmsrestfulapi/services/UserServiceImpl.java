@@ -86,10 +86,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String verifyUser(User user) {
-		user.getLogin().setVerified(true);
-		userRepository.save(user);
-		return null;
+	public String verifyUser(Integer userId) {
+		Login login = loginRepository.getLoginById(userId);
+		login.setVerified(true);
+//		userRepository.save(user);
+		return " User verified Successfully.";
 	}
 
 	@Override

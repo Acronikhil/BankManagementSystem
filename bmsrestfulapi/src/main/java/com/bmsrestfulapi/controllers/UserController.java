@@ -54,8 +54,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/verify")
-	public ResponseEntity<String> verifyUser(@RequestBody User user) {
-		return new ResponseEntity<String>(userService.verifyUser(user), HttpStatus.OK);
+	public ResponseEntity<String> verifyUser(@RequestParam Integer userId) {
+		return new ResponseEntity<String>(userService.verifyUser(userId), HttpStatus.OK);
 
 	}
 	
