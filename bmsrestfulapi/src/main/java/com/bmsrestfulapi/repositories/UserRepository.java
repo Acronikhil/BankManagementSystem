@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.User;
 
 @Repository

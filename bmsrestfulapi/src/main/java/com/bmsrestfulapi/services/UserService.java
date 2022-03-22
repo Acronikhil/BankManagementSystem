@@ -11,6 +11,8 @@ import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
 
 public interface UserService {
 	
+	public static final String STRING = "\"string\"";
+	
 	//get
 	public List<User> getAllNotVerifiedUser();
 	

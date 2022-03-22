@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bmsrestfulapi.entities.AccountInfo;
-import com.bmsrestfulapi.entities.User;
+
 
 @Repository
 public interface AccountInfoRepository extends JpaRepository<AccountInfo, Integer> {

@@ -21,12 +21,12 @@ public class LoginController {
 	
 	@PostMapping("/user")
 	public  ResponseEntity<String> loginUser(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
-		return new ResponseEntity<String>(userService.login(accountNo, password), HttpStatus.OK);
+		return new ResponseEntity<>(userService.login(accountNo, password), HttpStatus.OK);
 	}
    
 	@PostMapping("/admin")
 	public  ResponseEntity<String> adminLogin(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
-		return new ResponseEntity<String>(userService.adminLogin(accountNo, password), HttpStatus.OK);
+		return new ResponseEntity<>(userService.adminLogin(accountNo, password), HttpStatus.OK);
 	}
 
 }

@@ -21,7 +21,6 @@ public class AccountInfo {
 	private Integer accountNo;
 	private Integer currentBalance = 0;
 	private String accountType = "saving";
-	// private Integer userId;
 
 	@ManyToOne(cascade =CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId")
@@ -30,7 +29,6 @@ public class AccountInfo {
 
 	public AccountInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	

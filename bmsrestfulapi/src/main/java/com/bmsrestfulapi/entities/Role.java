@@ -20,7 +20,6 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer roleId;
-	// private Integer userId;
 	@Column(columnDefinition = "varchar(10) default 'user'")
 	private String roleName = "user";
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -30,9 +29,8 @@ public class Role {
 
 	public Role() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Role(User user) {
 		this.roleName = "user";
 		this.user = user;

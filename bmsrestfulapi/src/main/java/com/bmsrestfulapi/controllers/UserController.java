@@ -49,29 +49,29 @@ public class UserController {
 		user.setLogin(l);
 		user.setAccountList(accountList);
 		
-		return new ResponseEntity<String>(userService.createUser(user), HttpStatus.CREATED);
+		return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
 
 	}
 	
 	@PostMapping("/verify")
 	public ResponseEntity<String> verifyUser(@RequestParam Integer userId) {
-		return new ResponseEntity<String>(userService.verifyUser(userId), HttpStatus.OK);
+		return new ResponseEntity<>(userService.verifyUser(userId), HttpStatus.OK);
 
 	}
 	
 	@PostMapping("/checkbalance")
 	public ResponseEntity<String> checkBalance(@RequestParam Integer pin, Integer userId) throws InvalidCredentialsException{
-		return new ResponseEntity<String>(userService.checkBalance(pin,userId), HttpStatus.OK);
+		return new ResponseEntity<>(userService.checkBalance(pin,userId), HttpStatus.OK);
 	}
 	
 	@PostMapping("/withdrawmoney")
 	public ResponseEntity<String> withdrawMoney(@RequestParam Integer pin, Integer amount, Integer accountNo) throws InvalidCredentialsException {
-		return new ResponseEntity<String>(userService.withdrawMoney(pin,amount, accountNo), HttpStatus.OK);
+		return new ResponseEntity<>(userService.withdrawMoney(pin,amount, accountNo), HttpStatus.OK);
 	}
 	
 	@PostMapping("/moneytransfer")
 	public ResponseEntity<String> transferMoney(@RequestParam Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo) throws InvalidCredentialsException {
-		return new ResponseEntity<String>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo), HttpStatus.OK);
+		return new ResponseEntity<>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo), HttpStatus.OK);
 	}
 	
 }

@@ -31,7 +31,9 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
-
+	
+	
+	
 
 	@Override
 	public List<User> getAllNotVerifiedUser() {
@@ -42,27 +44,13 @@ public class UserServiceImpl implements UserService {
 	public String createUser(User user) throws UserNotCreatedException {
 		if (userRepository.existsById(user.getUserId())) {
 			throw new UserNotCreatedException("Error creating user!'\n'User already exist.");
-		} else if (user.getName().equals("string") || user.getAddress().equals("string") || user.getContactNo() == 0
-				|| user.getGender().equals("string") || user.getPin() == 0 || user == null) {
+		} else if (user.getName().equals(UserService.STRING) || user.getAddress().equals(UserService.STRING) || user.getContactNo() == 0
+				|| user.getGender().equals(UserService.STRING) || user.getPin() == 0) {
 			throw new UserNotCreatedException("Error creating user!'\n'Please check details.");
 
 		} else {
 			User u = userRepository.save(user);
 			u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-
-			/*
-			 * Login l = new Login(); AccountInfo ai = new AccountInfo(); Role r = new
-			 * Role();
-			 * 
-			 * l.setAccountNo(ai.getAccountNo()); ai.setUser(user); r.setUser(user);
-			 * l.setUser(user); accountInfoRepository.save(ai); roleRepository.save(r);
-			 * loginRepository.save(l);
-			 */
-			
-			
-			
-			
-
 			return "User created Successfully/nDetails:\n" + user;
 		}
 	}
@@ -89,7 +77,6 @@ public class UserServiceImpl implements UserService {
 	public String verifyUser(Integer userId) {
 		Login login = loginRepository.getLoginById(userId);
 		login.setVerified(true);
-//		userRepository.save(user);
 		return " User verified Successfully.";
 	}
 
@@ -111,12 +98,11 @@ public class UserServiceImpl implements UserService {
 		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
 	}
 
-
 	@Override
 	public String checkBalance(Integer pin, Integer userId) throws InvalidCredentialsException {
 		User user = userRepository.getPin(pin, userId);
 		if (user != null && user.getPin().equals(pin) && user.getUserId().equals(userId)) {
-			return "Your current balance is: " + String.valueOf(accountInfoRepository.getBalance(userId));
+			return "Your current balance is: " + accountInfoRepository.getBalance(userId);
 		} else
 			throw new InvalidCredentialsException("Please check your pin and user id");
 	}
@@ -132,7 +118,7 @@ public class UserServiceImpl implements UserService {
 				availableBalance -= amount;
 				accountInfo.setCurrentBalance(availableBalance);
 				accountInfoRepository.save(accountInfo);
-				return "Money Withdrawn Successfully! \nYour available balance is: " + String.valueOf(availableBalance);
+				return "Money Withdrawn Successfully! \nYour available balance is: " + availableBalance;
 			} else {
 				return "Insufficient Balance";
 			}
@@ -147,9 +133,10 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
 		AccountInfo receiverAccountInfo = accountInfoRepository.getAccountNo(receiversAccountNo);
-		
+
 		if (user != null && accountInfo != null && receiverAccountInfo != null && user.getPin().equals(pin)
-				&& accountInfo.getAccountNo().equals(accountNo) && receiverAccountInfo.getAccountNo().equals(receiversAccountNo)) {
+				&& accountInfo.getAccountNo().equals(accountNo)
+				&& receiverAccountInfo.getAccountNo().equals(receiversAccountNo)) {
 			Integer availableBalance = accountInfo.getCurrentBalance();
 			Integer receiversAvailableBalance = receiverAccountInfo.getCurrentBalance();
 			if (amount <= availableBalance) {
@@ -160,12 +147,11 @@ public class UserServiceImpl implements UserService {
 				receiversAvailableBalance += amount;
 				receiverAccountInfo.setCurrentBalance(receiversAvailableBalance);
 				accountInfoRepository.save(receiverAccountInfo);
-				return "Money Transfered Successfully! \nYour current balance is: " + String.valueOf(availableBalance);
-			}else {
+				return "Money Transfered Successfully! \nYour current balance is: " + availableBalance;
+			} else {
 				return "Insufficient Balance";
 			}
-		}
-		else {
+		} else {
 			throw new InvalidCredentialsException("Please enter valid credentials");
 		}
 	}
