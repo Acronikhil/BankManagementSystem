@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.User;
+import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.repositories.AccountInfoRepository;
@@ -28,8 +29,14 @@ public class UserServiceImpl implements UserService {
 	private AccountInfoRepository accountInfoRepository;
 
 	@Override
-	public List<User> getAllNotVerifiedUser() {
-		return userRepository.getNotVerifiedUsers();
+	public List<User> getAllNotVerifiedUser() throws EmptyUserListException {
+		List<User> userList = userRepository.getNotVerifiedUsers();
+		if(!userList.isEmpty()) {
+			return userList;
+			
+		}
+		throw new EmptyUserListException("All users are already verified.");
+			
 	}
 
 	@Override

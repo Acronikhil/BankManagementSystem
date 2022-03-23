@@ -1,11 +1,10 @@
 package com.bmsrestfulapi.services;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +16,13 @@ import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
-import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
-import com.bmsrestfulapi.exceptions.UserNotCreatedException;
+import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
+import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
 import com.bmsrestfulapi.repositories.UserRepository;
 
 @SpringBootTest
-class UserServiceTest {
+class LoginServiceTest {
 
 	@Autowired
 	UserService userService;
@@ -37,50 +36,45 @@ class UserServiceTest {
 
 	@BeforeEach
 	void setUp() {
+		userRepository.deleteAll();
 		Role r = new Role(user);
 		AccountInfo ai = new AccountInfo(user);
 		List<AccountInfo> accountList = new ArrayList<>();
 		accountList.add(ai);
+		ai.setAccountNo(999);
 		Login l = new Login(user, ai);
 
-		l.setVerified(true);
 		user.setRole(r);
 		user.setLogin(l);
 		user.setAccountList(accountList);
 
-		userRepository.save(user);
+		User u =userRepository.save(user);
+		
+		u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
+		
 	}
 
 	@Test
-	void createUserTest() throws UserNotCreatedException {
-		assertThrows(UserNotCreatedException.class, () -> userService.createUser(user));
+	void userLoginTest1() throws UserNotVerifiedException {
+		assertThrows(UserNotVerifiedException.class, () -> loginService.login(999, "1234"));
 	}
 
 	@Test
-	void checkBalanceTest() throws InvalidCredentialsException {
-
-		assertThrows(InvalidCredentialsException.class, () -> userService.checkBalance(123, 0));
-
+	void userLoginTest2() throws InvalidCredentialsException {
+		assertThrows(InvalidLoginCredentialsException.class, () -> loginService.login(12, "4"));
 	}
 
-	@Test
-	void withdrawMoneyTest() throws InvalidCredentialsException {
-
-		assertThrows(InvalidCredentialsException.class, () -> userService.withdrawMoney(1523, 500, 1));
-
-	}
 	
 	@Test
-	void moneyTransferTest() throws InvalidCredentialsException{
-		assertThrows(InvalidCredentialsException.class, () -> userService.moneyTransfer(421, 500, 0, 546));
+	void adminLoginTest1() throws UserNotVerifiedException {
+		
+		assertThrows(UserNotVerifiedException.class, () -> loginService.login(999, "1234"),"You are not admin, Please contact with BM.");
 	}
-	
+
 	@Test
-	void getAllNotVerifiedUsersTest() throws EmptyUserListException{
-		assertThrows(EmptyUserListException.class, () -> userService.getAllNotVerifiedUser());
+	void adminLoginTest2() throws InvalidCredentialsException {
+		assertThrows(InvalidLoginCredentialsException.class, () -> loginService.login(12, "4"));
 	}
-	
-	
 	
 
 	@AfterEach

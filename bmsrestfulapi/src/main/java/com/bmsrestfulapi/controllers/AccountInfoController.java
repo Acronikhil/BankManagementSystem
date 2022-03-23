@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
+import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.services.AccountInfoService;
 
 
@@ -22,5 +24,11 @@ public class AccountInfoController {
 	public ResponseEntity<String> getBalanceByUserId(@RequestParam Integer userId) {
 		return new ResponseEntity<>(accountInfoService.checkBalance(userId), HttpStatus.OK);
 	} 
+	
+	@PostMapping("/addmoney")
+	public ResponseEntity<String> addMoney (@RequestParam Integer amount, Integer accountNo,Integer userId) throws InvalidCredentialsException, UserNotFoundException{
+		return new ResponseEntity<>(accountInfoService.addMoney(amount, accountNo, userId), HttpStatus.OK);
+	}
+	
 	
 }

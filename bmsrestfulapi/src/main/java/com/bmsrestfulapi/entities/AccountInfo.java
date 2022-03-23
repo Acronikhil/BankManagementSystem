@@ -20,7 +20,7 @@ public class AccountInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer accountNo;
 	private Integer currentBalance = 0;
-	private String accountType = "saving";
+	private String accountType = "Savings";
 
 	@ManyToOne(cascade =CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId")
@@ -36,7 +36,7 @@ public class AccountInfo {
 	public AccountInfo(User user) {
 		super();
 		this.currentBalance = 0;
-		this.accountType = "saving";
+		this.accountType = "Savings";
 		this.user = user;
 	}
 

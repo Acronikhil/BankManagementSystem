@@ -17,6 +17,7 @@ import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
+import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.services.UserService;
@@ -33,7 +34,7 @@ public class UserController {
 	}
 
 	@GetMapping("/getAllNonVerifiedUsers")
-	public ResponseEntity<List<User>> getAllNonVerifiedUsers() {
+	public ResponseEntity<List<User>> getAllNonVerifiedUsers() throws EmptyUserListException {
 		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 

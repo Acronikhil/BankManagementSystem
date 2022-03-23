@@ -30,5 +30,12 @@ public class UserExceptionsAdvice {
 	String invalidCredentials(InvalidCredentialsException ex) {
 		return ex.getMessage();
 	}
+	
+
+	@ExceptionHandler(EmptyUserListException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String getAllNotVerifiedUsers(EmptyUserListException ex) {
+		return ex.getMessage();
+	}
 
 }

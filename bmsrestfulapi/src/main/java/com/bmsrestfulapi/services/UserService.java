@@ -3,6 +3,7 @@ package com.bmsrestfulapi.services;
 import java.util.List;
 
 import com.bmsrestfulapi.entities.User;
+import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 
@@ -11,7 +12,7 @@ public interface UserService {
 	public static final String STRING = "\"string\"";
 
 	// get
-	public List<User> getAllNotVerifiedUser();
+	public List<User> getAllNotVerifiedUser() throws EmptyUserListException;
 
 	// creating a new user
 	public String createUser(User user) throws UserNotCreatedException;
