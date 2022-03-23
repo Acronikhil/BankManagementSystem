@@ -16,8 +16,17 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "user")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
 	@Id
@@ -31,13 +40,16 @@ public class User {
 	private Long contactNo;
 	private String gender;
 
-	@OneToOne(mappedBy = "user",targetEntity = Role.class ,cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse side
+	@OneToOne(mappedBy = "user", targetEntity = Role.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse
+																												// side
 	private Role role;
 
-	@OneToMany(mappedBy = "user",targetEntity = AccountInfo.class ,cascade = CascadeType.ALL,fetch = FetchType.LAZY) // inverse side
+	@OneToMany(mappedBy = "user", targetEntity = AccountInfo.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse
+																														// side
 	private List<AccountInfo> accountList;
 
-	@OneToOne(mappedBy = "user", targetEntity = Login.class , cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse side
+	@OneToOne(mappedBy = "user", targetEntity = Login.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY) // inverse
+																												// side
 	private Login login;
 
 	public User() {
@@ -112,28 +124,32 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
-	
+
 	@JsonIgnore
 	public Role getRole() {
 		return role;
 	}
+
 	@JsonIgnore
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
 	@JsonIgnore
 	public List<AccountInfo> getAccountList() {
 		return accountList;
 	}
+
 	@JsonIgnore
 	public void setAccountList(List<AccountInfo> accountList) {
 		this.accountList = accountList;
 	}
+
 	@JsonIgnore
 	public Login getLogin() {
 		return login;
 	}
+
 	@JsonIgnore
 	public void setLogin(Login login) {
 		this.login = login;
