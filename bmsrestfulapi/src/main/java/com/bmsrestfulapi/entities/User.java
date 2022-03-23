@@ -52,10 +52,6 @@ public class User {
 																												// side
 	private Login login;
 
-	public User() {
-		super();
-	}
-
 	public User(Integer userId, String address, String name, Integer pin, LocalDate dob, Long contactNo,
 			String gender) {
 		super();

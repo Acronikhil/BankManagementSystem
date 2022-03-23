@@ -28,12 +28,12 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/")
-	private String defaultMessage() {
+	public String defaultMessage() {
 		return "User Home Page";
 	}
 
 	@GetMapping("/getAllNonVerifiedUsers")
-	private ResponseEntity<?> getAllNonVerifiedUsers() {
+	public ResponseEntity<List<User>> getAllNonVerifiedUsers() {
 		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 
