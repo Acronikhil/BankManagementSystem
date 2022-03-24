@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bmsrestfulapi.entities.AccountInfo;
-import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.CustomExceptionsMessages;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
