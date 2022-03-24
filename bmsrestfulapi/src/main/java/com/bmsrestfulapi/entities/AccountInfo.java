@@ -22,7 +22,7 @@ public class AccountInfo {
 	private Integer currentBalance = 0;
 	private String accountType = "Savings";
 
-	@ManyToOne(cascade =CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "userId")
 	@JsonIgnoreProperties
 	private User user;
@@ -30,8 +30,6 @@ public class AccountInfo {
 	public AccountInfo() {
 		super();
 	}
-	
-	
 
 	public AccountInfo(User user) {
 		super();
@@ -39,8 +37,6 @@ public class AccountInfo {
 		this.accountType = "Savings";
 		this.user = user;
 	}
-
-
 
 	public AccountInfo(Integer accountNo, Integer currentBalance, String accountType, User user) {
 		super();

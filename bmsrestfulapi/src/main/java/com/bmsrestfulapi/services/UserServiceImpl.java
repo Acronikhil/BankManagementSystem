@@ -31,12 +31,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getAllNotVerifiedUser() throws EmptyUserListException {
 		List<User> userList = userRepository.getNotVerifiedUsers();
-		if(!userList.isEmpty()) {
+		if (!userList.isEmpty()) {
 			return userList;
-			
+
 		}
 		throw new EmptyUserListException("All users are already verified.");
-			
+
 	}
 
 	@Override
