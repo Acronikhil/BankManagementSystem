@@ -22,17 +22,18 @@ public interface UserService {
 
 	public String verifyUser(Integer userId);
 
-	public String checkBalance(Integer pin, Integer userId) throws InvalidCredentialsException;
+	public String checkBalance( Integer userId, Integer pin) throws InvalidCredentialsException;
 
-	public String withdrawMoney(Integer pin, Integer amount, Integer accountNo) throws InvalidCredentialsException;
+	public String withdrawMoney( Integer accountNo, Integer amount,Integer pin) throws InvalidCredentialsException;
 
-	public String moneyTransfer(Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo)
+	public String moneyTransfer( Integer accountNo,Integer amount, Integer receiversAccountNo, Integer pin)
 			throws InvalidCredentialsException;
-	
-	public String deleteUserById(Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException;
-	
+
+	public String deleteUserById(Integer userId, Integer adminId)
+			throws UserNotFoundException, InvalidCredentialsException;
+
 	public String updateUser(User user, Integer adminId) throws UserNotFoundException, InvalidCredentialsException;
-	
+
 	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException;
 
 }

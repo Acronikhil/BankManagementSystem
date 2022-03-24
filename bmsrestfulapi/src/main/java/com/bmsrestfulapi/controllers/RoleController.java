@@ -14,12 +14,16 @@ import com.bmsrestfulapi.services.RoleService;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
-	
+
 	@Autowired
 	private RoleService roleService;
 
+	/*
+	 * Assigning role as admin to the user 
+	 */
 	@PostMapping("/assignrole")
-	public ResponseEntity<String> assignRole(@RequestParam Integer userId, String value) throws InvalidCredentialsException {
+	public ResponseEntity<String> assignRole(@RequestParam Integer userId, String value)
+			throws InvalidCredentialsException {
 		return new ResponseEntity<>(roleService.assignRole(userId, value), HttpStatus.OK);
 	}
 }
