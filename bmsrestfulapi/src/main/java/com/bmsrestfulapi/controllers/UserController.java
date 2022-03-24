@@ -54,17 +54,20 @@ public class UserController {
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteUserById(@RequestParam Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+	public ResponseEntity<String> deleteUserById(@RequestParam Integer userId, Integer adminId)
+			throws UserNotFoundException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
 	}
-	
+
 	@PutMapping("/update")
-	public ResponseEntity<String> updateUser(@RequestBody User user,@RequestParam(value = "adminId") Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+	public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam(value = "adminId") Integer adminId)
+			throws UserNotFoundException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getall/{adminId}")
-	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId) throws EmptyUserListException, InvalidCredentialsException{
+	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId)
+			throws EmptyUserListException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.getAllUsers(adminId), HttpStatus.FOUND);
 	}
 
@@ -80,9 +83,9 @@ public class UserController {
 	}
 
 	@PostMapping("/checkbalance")
-	public ResponseEntity<String> checkBalance(@RequestParam Integer pin, Integer userId)
+	public ResponseEntity<String> checkBalance(@RequestParam Integer userId, Integer pin)
 			throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.checkBalance(pin, userId), HttpStatus.OK);
+		return new ResponseEntity<>(userService.checkBalance(userId, pin), HttpStatus.OK);
 	}
 
 	@PostMapping("/withdrawmoney")

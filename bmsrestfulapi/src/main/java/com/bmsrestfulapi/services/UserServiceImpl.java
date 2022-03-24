@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.bmsrestfulapi.entities.AccountInfo;
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.User;
+import com.bmsrestfulapi.exceptions.CustomExceptionsMessages;
 import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
@@ -28,7 +29,6 @@ public class UserServiceImpl implements UserService {
 	private LoginRepository loginRepository;
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
-	
 
 	@Override
 	public List<User> getAllNotVerifiedUser() throws EmptyUserListException {
@@ -37,19 +37,19 @@ public class UserServiceImpl implements UserService {
 			return userList;
 
 		}
-		throw new EmptyUserListException("All users are already verified.");
+		throw new EmptyUserListException(CustomExceptionsMessages.EVERYONE_ALREADY_VERIFIED);
 
 	}
 
 	@Override
 	public String createUser(User user) throws UserNotCreatedException {
 		if (userRepository.existsById(user.getUserId())) {
-			throw new UserNotCreatedException("Error creating user!\nUser already exist.");
+			throw new UserNotCreatedException(CustomExceptionsMessages.USER_ALREADY_EXIST);
 		} else if (userRepository.existByContactNo(user.getContactNo()) != null) {
-			throw new UserNotCreatedException("Error creating user!\nUser already exist with same contact no.");
+			throw new UserNotCreatedException(CustomExceptionsMessages.USER_ALREADY_EXIST_WITH_SAME_CONTACT_NO);
 		} else if (user.getName().equals(UserService.STRING) || user.getAddress().equals(UserService.STRING)
 				|| user.getContactNo() == 0 || user.getGender().equals(UserService.STRING) || user.getPin() == 0) {
-			throw new UserNotCreatedException("Error creating user!\nPlease check details.");
+			throw new UserNotCreatedException(CustomExceptionsMessages.PLEASE_CHECK_DETAILS);
 
 		} else {
 			User u = userRepository.save(user);
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		if (user != null && user.getPin().equals(pin) && user.getUserId().equals(userId)) {
 			return "Your current balance is: " + accountInfoRepository.getBalance(userId);
 		} else
-			throw new InvalidCredentialsException("Please check your pin and user id");
+			throw new InvalidCredentialsException(CustomExceptionsMessages.PLEASE_CHECK_YOUR_PIN_AND_USER_ID);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 				return "Insufficient Balance";
 			}
 		} else {
-			throw new InvalidCredentialsException("Please check your pin and account number");
+			throw new InvalidCredentialsException(CustomExceptionsMessages.PLEASE_CHECK_YOUR_PIN_AND_ACCOUNT_NUMBER);
 		}
 	}
 
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 				return "Insufficient Balance";
 			}
 		} else {
-			throw new InvalidCredentialsException("Please enter valid credentials");
+			throw new InvalidCredentialsException(CustomExceptionsMessages.PLEASE_ENTER_VALID_CREDENTIALS);
 		}
 	}
 
@@ -132,10 +132,10 @@ public class UserServiceImpl implements UserService {
 				userRepository.deleteById(userId);
 				return "User deleted successfully!";
 			} else {
-				throw new UserNotFoundException("No user exist with this Id");
+				throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
 			}
 		} else {
-			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 	}
 
@@ -147,10 +147,10 @@ public class UserServiceImpl implements UserService {
 				userRepository.save(user);
 				return "User Updated successfully!";
 			} else {
-				throw new UserNotFoundException("No user exist with this Id");
+				throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
 			}
 		} else {
-			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 	}
 
@@ -162,10 +162,10 @@ public class UserServiceImpl implements UserService {
 			if (!userList.isEmpty()) {
 				return "List of Users: \n" + userList;
 			} else {
-				throw new EmptyUserListException("No user exist in database");
+				throw new EmptyUserListException(CustomExceptionsMessages.NO_USER_EXIST_IN_DATABASE);
 			}
 		} else {
-			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 
 	}

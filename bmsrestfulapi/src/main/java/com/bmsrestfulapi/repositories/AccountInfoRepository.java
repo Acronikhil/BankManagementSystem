@@ -15,9 +15,9 @@ public interface AccountInfoRepository extends JpaRepository<AccountInfo, Intege
 	 * @return userId from account information
 	 */
 	@Query("select ai.user.userId from AccountInfo ai where ai.accountNo=:accountNo")
-	public Integer getUserIdByAccountNot(@Param(value = "accountNo") Integer accountNo);
 
-	// fetch current balance from user's account by using userId
+	public Integer getUserIdByAccountNo(@Param(value="accountNo") Integer accountNo);
+
 	@Query("select ai.currentBalance from AccountInfo ai where ai.user.userId=:userId")
 	public Integer getBalance(@Param(value = "userId") Integer userId);
 
