@@ -27,6 +27,9 @@ public interface UserService {
 	/* Verifying user by getting userId to fetch user details. */
 	public String verifyUser(Integer userId);
 
+
+
+
 	/* Checking account balance by fetching user by userId and matching pin. */
 	public String checkBalance(Integer pin, Integer userId) throws InvalidCredentialsException;
 
@@ -60,6 +63,7 @@ public interface UserService {
 	 * Get List of all users in database. 
 	 * Requires adminId(only admin can perform this operation)
 	 */
+
 	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException;
 
 }

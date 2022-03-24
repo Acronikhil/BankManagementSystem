@@ -19,13 +19,19 @@ public class AccountInfoController {
 	@Autowired
 	AccountInfoService accountInfoService;
 
+	/*
+	 * Admin will get balance of their users by userId
+	 */
 	@PostMapping("/getbalance")
 	public ResponseEntity<String> getBalanceByUserId(@RequestParam Integer userId) {
 		return new ResponseEntity<>(accountInfoService.checkBalance(userId), HttpStatus.OK);
 	}
 
+	/*
+	 * Admin will add money in users account by userId, accountNo and amount
+	 */
 	@PostMapping("/addmoney")
-	public ResponseEntity<String> addMoney(@RequestParam Integer amount, Integer accountNo, Integer userId)
+	public ResponseEntity<String> addMoney(@RequestParam Integer accountNo,Integer userId,Integer amount  )
 			throws InvalidCredentialsException, UserNotFoundException {
 		return new ResponseEntity<>(accountInfoService.addMoney(amount, accountNo, userId), HttpStatus.OK);
 	}

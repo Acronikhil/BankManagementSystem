@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String checkBalance(Integer pin, Integer userId) throws InvalidCredentialsException {
+	public String checkBalance(Integer userId, Integer pin) throws InvalidCredentialsException {
 		User user = userRepository.getPin(pin, userId);
 		if (user != null && user.getPin().equals(pin) && user.getUserId().equals(userId)) {
 			return "Your current balance is: " + accountInfoRepository.getBalance(userId);
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String withdrawMoney(Integer pin, Integer amount, Integer accountNo) throws InvalidCredentialsException {
+	public String withdrawMoney( Integer accountNo, Integer amount, Integer pin) throws InvalidCredentialsException {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
 		if (user != null && accountInfo != null && user.getPin().equals(pin)
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String moneyTransfer(Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo)
+	public String moneyTransfer(  Integer accountNo, Integer amount,Integer receiversAccountNo, Integer pin)
 			throws InvalidCredentialsException {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);

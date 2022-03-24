@@ -27,7 +27,7 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	}
 
 	@Override
-	public String addMoney(Integer amount, Integer accountNo, Integer userId)
+	public String addMoney(Integer userId, Integer accountNo, Integer amount)
 			throws InvalidCredentialsException, UserNotFoundException {
 		if (userRepository.existsById(userId)) {
 			String role = roleRepository.getRole(userId).toLowerCase();

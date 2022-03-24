@@ -5,6 +5,7 @@ import com.bmsrestfulapi.exceptions.UserNotFoundException;
 
 public interface AccountInfoService {
 
+
 	/* Check the current balance through user id */
 	public String checkBalance(Integer userId);
 
@@ -12,6 +13,7 @@ public interface AccountInfoService {
 	 * Deposit money to the account. It requires account number, user id and amount.
 	 */
 	public String addMoney(Integer amount, Integer accountNo, Integer userId)
+
 			throws InvalidCredentialsException, UserNotFoundException;
 
 }

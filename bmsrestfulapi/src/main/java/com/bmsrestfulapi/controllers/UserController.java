@@ -37,6 +37,9 @@ public class UserController {
 		return "User Home Page";
 	}
 
+	/*
+	 * Admin creates user
+	 */
 	@PostMapping("/create")
 	public ResponseEntity<String> createUser(@RequestBody User user) throws UserNotCreatedException {
 		Role r = new Role(user);
@@ -53,11 +56,20 @@ public class UserController {
 
 	}
 
+	/*
+	 * Admin deletes user and admin by userId and adminId
+	 * 
+	 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUserById(@RequestParam Integer userId, Integer adminId)
 			throws UserNotFoundException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
 	}
+
+
+	/*
+	 * Admin updates user
+	 */
 
 	@PutMapping("/update")
 	public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam(value = "adminId") Integer adminId)
@@ -65,38 +77,59 @@ public class UserController {
 		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
 	}
 
+
+	/*
+	 * Admin gets list of users
+	 */
+
 	@GetMapping("/getall/{adminId}")
 	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId)
 			throws EmptyUserListException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.getAllUsers(adminId), HttpStatus.FOUND);
 	}
 
+	/*
+	 * Admin will get list of all non verified users
+	 */
 	@GetMapping("/getAllNonVerifiedUsers")
 	public ResponseEntity<List<User>> getAllNonVerifiedUsers() throws EmptyUserListException {
 		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 
+	/*
+	 * Admin verifies users by userId
+	 */
 	@PostMapping("/verify")
 	public ResponseEntity<String> verifyUser(@RequestParam Integer userId) {
 		return new ResponseEntity<>(userService.verifyUser(userId), HttpStatus.OK);
 
 	}
 
+	/*
+	 * User checks balance by userId and pin
+	 */
 	@PostMapping("/checkbalance")
 	public ResponseEntity<String> checkBalance(@RequestParam Integer userId, Integer pin)
 			throws InvalidCredentialsException {
 		return new ResponseEntity<>(userService.checkBalance(userId, pin), HttpStatus.OK);
 	}
 
+	/*
+	 * User withdraws money by giving accountNo, amount and pin
+	 */
 	@PostMapping("/withdrawmoney")
-	public ResponseEntity<String> withdrawMoney(@RequestParam Integer pin, Integer amount, Integer accountNo)
+	public ResponseEntity<String> withdrawMoney(@RequestParam Integer accountNo, Integer amount, Integer pin)
 			throws InvalidCredentialsException {
 		return new ResponseEntity<>(userService.withdrawMoney(pin, amount, accountNo), HttpStatus.OK);
 	}
 
+	/*
+	 * User tranfers money by giving account no of sender and receiver, amount and
+	 * pin
+	 */
 	@PostMapping("/moneytransfer")
-	public ResponseEntity<String> transferMoney(@RequestParam Integer pin, Integer amount, Integer accountNo,
-			Integer receiversAccountNo) throws InvalidCredentialsException {
+	public ResponseEntity<String> transferMoney(@RequestParam Integer accountNo, Integer receiversAccountNo,
+			Integer amount, Integer pin) throws InvalidCredentialsException {
 		return new ResponseEntity<>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo),
 				HttpStatus.OK);
 	}
