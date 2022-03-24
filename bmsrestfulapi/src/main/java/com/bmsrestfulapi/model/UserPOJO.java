@@ -1,24 +1,26 @@
-package com.bmsrestfulapi.entities;
+package com.bmsrestfulapi.model;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.entities.Login;
+import com.bmsrestfulapi.entities.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name = "user")
-public class User {
+
+
+
+public class UserPOJO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +45,11 @@ public class User {
 																												// side
 	private Login login;
 
-	public User() {
+	public UserPOJO() {
 		super();
 	}
 
-	public User(Integer userId, String address, String name, Integer pin, LocalDate dob, Long contactNo,
+	public UserPOJO(Integer userId, String address, String name, Integer pin, LocalDate dob, Long contactNo,
 			String gender) {
 		super();
 		this.userId = userId;
@@ -148,8 +150,9 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "userId=" + userId + ", address=" + address + ", name=" + name + ", pin=" + pin + ", dob=" + dob
-				+ ", contactNo=" + contactNo + ", gender=" + gender;
+		return "User [userId=" + userId + ", address=" + address + ", name=" + name + ", pin=" + pin + ", dob=" + dob
+				+ ", contactNo=" + contactNo + ", gender=" + gender + ", role=" + role + ", accountList=" + accountList
+				+ ", login=" + login + "]";
 	}
 
 }
