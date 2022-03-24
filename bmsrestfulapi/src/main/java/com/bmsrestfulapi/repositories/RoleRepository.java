@@ -12,4 +12,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer>{
 
 	@Query("select r.roleName from Role r where r.user.userId=:userId")
     public String getRole(@Param(value="userId") Integer userId);
+	
+	@Query("from Role r where r.user.userId=:userId")
+    public Role getRoleObject(@Param(value="userId") Integer userId);
 }

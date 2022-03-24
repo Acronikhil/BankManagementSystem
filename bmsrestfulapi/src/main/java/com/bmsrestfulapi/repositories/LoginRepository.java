@@ -14,7 +14,5 @@ public interface LoginRepository extends JpaRepository<Login, Integer> {
 	@Query(" from Login l where l.user.userId=:userId")
 	public Login getLoginById(@Param(value = "userId") Integer userId);
 	
-	
-	
 
 }
