@@ -66,18 +66,22 @@ public class UserController {
 		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
 	}
 
+
 	/*
 	 * Admin updates user
 	 */
+
 	@PutMapping("/update")
 	public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam(value = "adminId") Integer adminId)
 			throws UserNotFoundException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
 	}
 
+
 	/*
 	 * Admin gets list of users
 	 */
+
 	@GetMapping("/getall/{adminId}")
 	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId)
 			throws EmptyUserListException, InvalidCredentialsException {
@@ -107,7 +111,7 @@ public class UserController {
 	@PostMapping("/checkbalance")
 	public ResponseEntity<String> checkBalance(@RequestParam Integer userId, Integer pin)
 			throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.checkBalance(pin, userId), HttpStatus.OK);
+		return new ResponseEntity<>(userService.checkBalance(userId, pin), HttpStatus.OK);
 	}
 
 	/*

@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 import com.bmsrestfulapi.entities.Role;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>{
-
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+	// Retrieve Role from data store by userId returning role name
 	@Query("select r.roleName from Role r where r.user.userId=:userId")
-    public String getRole(@Param(value="userId") Integer userId);
-	
+	public String getRole(@Param(value = "userId") Integer userId);
+
+	// Retrieve all Role from data store by userId
 	@Query("from Role r where r.user.userId=:userId")
-    public Role getRoleObject(@Param(value="userId") Integer userId);
+	public Role getRoleObject(@Param(value = "userId") Integer userId);
 }

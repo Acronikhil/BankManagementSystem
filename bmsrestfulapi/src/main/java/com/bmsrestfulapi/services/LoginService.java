@@ -5,6 +5,7 @@ import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
 
 public interface LoginService {
 
+
 	public String login(Integer accNo, String password)
 			throws InvalidLoginCredentialsException, UserNotVerifiedException;
 

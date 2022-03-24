@@ -32,6 +32,7 @@ class LoginServiceTest {
 	@Autowired
 	UserRepository userRepository;
 
+	/* Creating a mock user data to add in database */
 	private final User user = new User(8, "Indore", "abcJuintTest", 123, LocalDate.now(), 8962132378L, "female");
 
 	@BeforeEach
