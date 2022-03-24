@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.exceptions.CustomExceptionsMessages;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.repositories.AccountInfoRepository;
@@ -39,13 +40,13 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 					accountInfoRepository.save(accountInfo);
 					return "Money Added Successfully! \nCurrent balance is: " + availableBalance;
 				} else {
-					throw new InvalidCredentialsException("No user exist with this account number");
+					throw new InvalidCredentialsException(CustomExceptionsMessages.NO_USER_WITH_THIS_ACCOUNT_NUMER);
 				}
 			} else {
-				throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+				throw new InvalidCredentialsException(CustomExceptionsMessages.CANT_ADD_MONEY);
 			}
 		} else {
-			throw new UserNotFoundException("No admin exist with this Id");
+			throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
 		}
 	}
 

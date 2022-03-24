@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.entities.Role;
+import com.bmsrestfulapi.exceptions.CustomExceptionsMessages;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.repositories.LoginRepository;
 import com.bmsrestfulapi.repositories.RoleRepository;
@@ -38,11 +39,11 @@ public class RoleServiceImpl implements RoleService {
 		          return "Role is assigned successfully!";
 		    }
 		    else {
-		    	throw new InvalidCredentialsException("Please enter valid role name");
+		    	throw new InvalidCredentialsException(CustomExceptionsMessages.PLEASE_ENTER_VALID_ROLE_NAME);
 		    }
 		    
 		}else {
-			throw new InvalidCredentialsException("No user exist with this user number");
+			throw new InvalidCredentialsException(CustomExceptionsMessages.NO_USER_WITH_THIS_NAME);
 		}
 	}
     

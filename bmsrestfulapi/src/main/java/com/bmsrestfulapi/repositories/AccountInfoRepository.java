@@ -11,7 +11,7 @@ import com.bmsrestfulapi.entities.AccountInfo;
 @Repository
 public interface AccountInfoRepository extends JpaRepository<AccountInfo, Integer> {
 	@Query("select ai.user.userId from AccountInfo ai where ai.accountNo=:accountNo")
-	public Integer getUserIdByAccountNot(@Param(value="accountNo") Integer accountNo);
+	public Integer getUserIdByAccountNo(@Param(value="accountNo") Integer accountNo);
 	
 	@Query("select ai.currentBalance from AccountInfo ai where ai.user.userId=:userId")
 	public Integer getBalance(@Param(value="userId") Integer userId);
