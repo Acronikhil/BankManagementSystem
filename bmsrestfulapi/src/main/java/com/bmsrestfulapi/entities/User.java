@@ -16,17 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
 @Table(name = "user")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
 	@Id
@@ -157,9 +148,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", address=" + address + ", name=" + name + ", pin=" + pin + ", dob=" + dob
-				+ ", contactNo=" + contactNo + ", gender=" + gender + ", role=" + role + ", accountList=" + accountList
-				+ ", login=" + login + "]";
+		return "userId=" + userId + ", address=" + address + ", name=" + name + ", pin=" + pin + ", dob=" + dob
+				+ ", contactNo=" + contactNo + ", gender=" + gender;
 	}
 
 }

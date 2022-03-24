@@ -6,19 +6,16 @@ import org.springframework.stereotype.Service;
 import com.bmsrestfulapi.entities.Login;
 import com.bmsrestfulapi.exceptions.InvalidLoginCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotVerifiedException;
-import com.bmsrestfulapi.repositories.AccountInfoRepository;
 import com.bmsrestfulapi.repositories.LoginRepository;
 import com.bmsrestfulapi.repositories.RoleRepository;
 
 @Service
 public class LoginServiceImpl implements LoginService {
-	
+
 	@Autowired
 	private LoginRepository loginRepository;
 	@Autowired
 	private RoleRepository roleRepository;
-	@Autowired
-	private AccountInfoRepository accountInfoRepository;
 
 	@Override
 	public String login(Integer accountNo, String password)
@@ -37,14 +34,13 @@ public class LoginServiceImpl implements LoginService {
 		throw new InvalidLoginCredentialsException("Please check your Login Credentials!");
 
 	}
-	
+
 	@Override
 	public String adminLogin(Integer accountNo, String password)
 			throws InvalidLoginCredentialsException, UserNotVerifiedException {
 		Login login = loginRepository.getCredentials(accountNo, password);
 		if (login != null) {
-			Integer userId = accountInfoRepository.getUserIdByAccountNot(accountNo);
-			String role = roleRepository.getRole(userId).toLowerCase();
+			String role = roleRepository.getRole(login.getUser().getUserId()).toLowerCase();
 			if (role.equals("admin")) {
 				login.setLogin(true);
 				loginRepository.save(login);
