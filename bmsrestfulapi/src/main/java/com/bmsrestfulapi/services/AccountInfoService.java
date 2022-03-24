@@ -12,7 +12,7 @@ public interface AccountInfoService {
 	/*
 	 * Deposit money to the account. It requires account number, user id and amount.
 	 */
-	public String addMoney(Integer amount, Integer accountNo, Integer userId)
+	public String addMoney(Integer accountNo , Integer userId  , Integer amount)
 
 			throws InvalidCredentialsException, UserNotFoundException;
 

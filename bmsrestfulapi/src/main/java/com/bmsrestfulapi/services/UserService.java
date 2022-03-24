@@ -64,6 +64,6 @@ public interface UserService {
 	 * Requires adminId(only admin can perform this operation)
 	 */
 
-	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException;
+	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException;
 
 }

@@ -31,9 +31,9 @@ public class AccountInfoController {
 	 * Admin will add money in users account by userId, accountNo and amount
 	 */
 	@PostMapping("/addmoney")
-	public ResponseEntity<String> addMoney(@RequestParam Integer accountNo,Integer userId,Integer amount  )
+	public ResponseEntity<String> addMoney(@RequestParam Integer accountNo,Integer adminId,Integer amount  )
 			throws InvalidCredentialsException, UserNotFoundException {
-		return new ResponseEntity<>(accountInfoService.addMoney(amount, accountNo, userId), HttpStatus.OK);
+		return new ResponseEntity<>(accountInfoService.addMoney(accountNo, adminId, amount), HttpStatus.OK);
 	}
 
 }

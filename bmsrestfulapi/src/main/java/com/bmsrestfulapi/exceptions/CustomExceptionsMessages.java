@@ -4,6 +4,8 @@ package com.bmsrestfulapi.exceptions;
 public class CustomExceptionsMessages {
 
 	public static final String YOU_ARE_NOT_ADMIN_EXCEPTION = "You are not an Admin \nCan't delete user.";
+	
+	public static final String YOU_ARE_NOT_ADMIN_CANT_UPDATE_USER = "You are not an Admin \nCan't update user.";
 
 	public static final String NO_USER_EXISTS_WITH_THIS_ID = "No user exist with this Id";
 

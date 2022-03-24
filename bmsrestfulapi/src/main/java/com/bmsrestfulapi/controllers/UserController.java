@@ -84,7 +84,7 @@ public class UserController {
 
 	@GetMapping("/getall/{adminId}")
 	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId)
-			throws EmptyUserListException, InvalidCredentialsException {
+			throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUsers(adminId), HttpStatus.FOUND);
 	}
 

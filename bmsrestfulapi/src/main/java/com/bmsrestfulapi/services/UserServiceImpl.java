@@ -150,12 +150,13 @@ public class UserServiceImpl implements UserService {
 				throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
 			}
 		} else {
-			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_EXCEPTION);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CANT_UPDATE_USER);
 		}
 	}
 
 	@Override
-	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException {
+	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException {
+		if(userRepository.existsById(adminId)) {
 		User admin = userRepository.getById(adminId);
 		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
 			List<User> userList = userRepository.findAll();
@@ -165,8 +166,10 @@ public class UserServiceImpl implements UserService {
 				throw new EmptyUserListException(CustomExceptionsMessages.NO_USER_EXIST_IN_DATABASE);
 			}
 		} else {
-			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_EXCEPTION);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CONTACT_TO_BM);
 		}
-
+	  }else {
+		  throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
+	  }
 	}
 }
