@@ -108,8 +108,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "Login [loginId=" + loginId + ", accountNo=" + accountNo + ", password=" + password + ", isLogin="
-				+ isLogin + ", isVerified=" + isVerified + ", userId=" + user.getUserId() + "]";
+		return "\nLogin [loginId=" + loginId + ", accountNo=" + accountNo + ", password=" + password + ", userId=" + user.getUserId() + "]";
 	}
 
 }

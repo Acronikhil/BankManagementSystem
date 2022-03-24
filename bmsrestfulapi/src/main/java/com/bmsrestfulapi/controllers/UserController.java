@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +23,7 @@ import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
+import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.services.UserService;
 
 @RestController
@@ -31,11 +35,6 @@ public class UserController {
 	@GetMapping("/")
 	public String defaultMessage() {
 		return "User Home Page";
-	}
-
-	@GetMapping("/getAllNonVerifiedUsers")
-	public ResponseEntity<List<User>> getAllNonVerifiedUsers() throws EmptyUserListException {
-		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 
 	@PostMapping("/create")
@@ -52,6 +51,26 @@ public class UserController {
 
 		return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
 
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<String> deleteUserById(@RequestParam Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<String> updateUser(@RequestBody User user,@RequestParam(value = "adminId") Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getall/{adminId}")
+	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId) throws EmptyUserListException, InvalidCredentialsException{
+		return new ResponseEntity<>(userService.getAllUsers(adminId), HttpStatus.FOUND);
+	}
+
+	@GetMapping("/getAllNonVerifiedUsers")
+	public ResponseEntity<List<User>> getAllNonVerifiedUsers() throws EmptyUserListException {
+		return new ResponseEntity<>(userService.getAllNotVerifiedUser(), HttpStatus.OK);
 	}
 
 	@PostMapping("/verify")

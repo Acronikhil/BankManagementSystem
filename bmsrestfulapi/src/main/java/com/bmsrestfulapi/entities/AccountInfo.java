@@ -80,8 +80,8 @@ public class AccountInfo {
 
 	@Override
 	public String toString() {
-		return "AccountInfo [accountNo=" + accountNo + ", currentBalance=" + currentBalance + ", accountType="
-				+ accountType + ", userId=" + user.getUserId() + "]";
+		return "\nAccountInfo [accountNo=" + accountNo + ", currentBalance=" + currentBalance + ", accountType="
+				+ accountType + "]";
 	}
 
 }

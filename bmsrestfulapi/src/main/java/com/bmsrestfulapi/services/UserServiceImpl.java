@@ -13,6 +13,7 @@ import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
+import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.repositories.AccountInfoRepository;
 import com.bmsrestfulapi.repositories.LoginRepository;
 import com.bmsrestfulapi.repositories.UserRepository;
@@ -121,4 +122,51 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public String deleteUserById(Integer userId, Integer adminId)
+			throws UserNotFoundException, InvalidCredentialsException {
+		User admin = userRepository.getById(adminId);
+		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+			if (userRepository.existsById(userId)) {
+				userRepository.deleteById(userId);
+				return "User deleted successfully!";
+			} else {
+				throw new UserNotFoundException("No user exist with this Id");
+			}
+		} else {
+			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+		}
+	}
+
+	@Override
+	public String updateUser(User user, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+		User admin = userRepository.getById(adminId);
+		System.out.println("-----------------" +admin+"-----------------------");
+		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+			if (userRepository.existsById(user.getUserId())) {
+				userRepository.save(user);
+				return "User Updated successfully!";
+			} else {
+				throw new UserNotFoundException("No user exist with this Id");
+			}
+		} else {
+			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+		}
+	}
+
+	@Override
+	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException {
+		User admin = userRepository.getById(adminId);
+		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+			List<User> userList = userRepository.findAll();
+			if (!userList.isEmpty()) {
+				return "List of Users: \n" + userList;
+			} else {
+				throw new EmptyUserListException("No user exist in database");
+			}
+		} else {
+			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+		}
+
+	}
 }

@@ -6,6 +6,7 @@ import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
+import com.bmsrestfulapi.exceptions.UserNotFoundException;
 
 public interface UserService {
 
@@ -25,4 +26,11 @@ public interface UserService {
 
 	public String moneyTransfer(Integer pin, Integer amount, Integer accountNo, Integer receiversAccountNo)
 			throws InvalidCredentialsException;
+	
+	public String deleteUserById(Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException;
+	
+	public String updateUser(User user, Integer adminId) throws UserNotFoundException, InvalidCredentialsException;
+	
+	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException;
+
 }
