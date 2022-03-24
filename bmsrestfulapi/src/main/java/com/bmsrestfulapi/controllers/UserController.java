@@ -100,8 +100,8 @@ public class UserController {
 	 * Admin verifies users by userId
 	 */
 	@PostMapping("/verify")
-	public ResponseEntity<String> verifyUser(@RequestParam Integer userId) {
-		return new ResponseEntity<>(userService.verifyUser(userId), HttpStatus.OK);
+	public ResponseEntity<String> verifyUser(@RequestParam Integer userId, Integer adminId) throws InvalidCredentialsException, UserNotFoundException {
+		return new ResponseEntity<>(userService.verifyUser(userId, adminId), HttpStatus.OK);
 
 	}
 

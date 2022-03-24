@@ -23,8 +23,8 @@ public class AccountInfoController {
 	 * Admin will get balance of their users by userId
 	 */
 	@PostMapping("/getbalance")
-	public ResponseEntity<String> getBalanceByUserId(@RequestParam Integer userId) {
-		return new ResponseEntity<>(accountInfoService.checkBalance(userId), HttpStatus.OK);
+	public ResponseEntity<String> getBalanceByUserId(@RequestParam Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+		return new ResponseEntity<>(accountInfoService.checkBalance(userId, adminId), HttpStatus.OK);
 	}
 
 	/*

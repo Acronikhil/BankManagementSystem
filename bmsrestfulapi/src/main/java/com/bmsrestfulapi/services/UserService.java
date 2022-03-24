@@ -25,7 +25,7 @@ public interface UserService {
 	public String createUser(User user) throws UserNotCreatedException;
 
 	/* Verifying user by getting userId to fetch user details. */
-	public String verifyUser(Integer userId);
+	public String verifyUser(Integer userId, Integer adminId) throws InvalidCredentialsException, UserNotFoundException;
 
 
 

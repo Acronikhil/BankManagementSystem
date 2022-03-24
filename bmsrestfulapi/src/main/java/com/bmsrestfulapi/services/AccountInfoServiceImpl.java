@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bmsrestfulapi.entities.AccountInfo;
+import com.bmsrestfulapi.entities.Login;
+import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.CustomExceptionsMessages;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
 import com.bmsrestfulapi.exceptions.UserNotFoundException;
@@ -22,8 +24,22 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	private UserRepository userRepository;
 
 	@Override
-	public String checkBalance(Integer userId) {
-		return "Current balance: " + accountInfoRepository.getBalance(userId);
+	public String checkBalance(Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+		if (userRepository.existsById(adminId)) {
+			User admin = userRepository.getById(adminId);
+			if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
+				if (userRepository.existsById(userId)) {
+					return "Current balance: " + accountInfoRepository.getBalance(userId);
+				} else {
+					throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
+				}
+			} else {
+				throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CONTACT_TO_BM);
+			}
+		} else {
+			throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
+		}
+		
 	}
 
 	@Override

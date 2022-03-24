@@ -7,7 +7,7 @@ public interface AccountInfoService {
 
 
 	/* Check the current balance through user id */
-	public String checkBalance(Integer userId);
+	public String checkBalance(Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException;
 
 	/*
 	 * Deposit money to the account. It requires account number, user id and amount.

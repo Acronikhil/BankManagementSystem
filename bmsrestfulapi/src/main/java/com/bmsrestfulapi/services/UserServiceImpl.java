@@ -59,10 +59,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String verifyUser(Integer userId) {
-		Login login = loginRepository.getLoginById(userId);
-		login.setVerified(true);
-		return " User verified Successfully.";
+	public String verifyUser(Integer userId, Integer adminId)
+			throws InvalidCredentialsException, UserNotFoundException {
+		if (userRepository.existsById(adminId)) {
+			User admin = userRepository.getById(adminId);
+			if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
+				if (userRepository.existsById(userId)) {
+					Login login = loginRepository.getLoginById(userId);
+					login.setVerified(true);
+					return " User verified Successfully.";
+				} else {
+					throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
+				}
+			} else {
+				throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CONTACT_TO_BM);
+			}
+		} else {
+			throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
+		}
 	}
 
 	@Override
@@ -75,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String withdrawMoney( Integer accountNo, Integer amount, Integer pin) throws InvalidCredentialsException {
+	public String withdrawMoney(Integer accountNo, Integer amount, Integer pin) throws InvalidCredentialsException {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
 		if (user != null && accountInfo != null && user.getPin().equals(pin)
@@ -95,7 +109,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String moneyTransfer(  Integer accountNo, Integer amount,Integer receiversAccountNo, Integer pin)
+	public String moneyTransfer(Integer accountNo, Integer amount, Integer receiversAccountNo, Integer pin)
 			throws InvalidCredentialsException {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
@@ -155,21 +169,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException {
-		if(userRepository.existsById(adminId)) {
-		User admin = userRepository.getById(adminId);
-		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
-			List<User> userList = userRepository.findAll();
-			if (!userList.isEmpty()) {
-				return "List of Users: \n" + userList;
+	public String getAllUsers(Integer adminId)
+			throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException {
+		if (userRepository.existsById(adminId)) {
+			User admin = userRepository.getById(adminId);
+			if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
+				List<User> userList = userRepository.findAll();
+				if (!userList.isEmpty()) {
+					return "List of Users: \n" + userList;
+				} else {
+					throw new EmptyUserListException(CustomExceptionsMessages.NO_USER_EXIST_IN_DATABASE);
+				}
 			} else {
-				throw new EmptyUserListException(CustomExceptionsMessages.NO_USER_EXIST_IN_DATABASE);
+				throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CONTACT_TO_BM);
 			}
 		} else {
-			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CONTACT_TO_BM);
+			throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
 		}
-	  }else {
-		  throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
-	  }
 	}
 }
