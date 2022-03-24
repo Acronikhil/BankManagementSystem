@@ -11,6 +11,8 @@ import com.bmsrestfulapi.exceptions.UserNotFoundException;
 public interface UserService {
 
 	public static final String STRING = "\"string\"";
+	public static final String ADMIN = "admin";
+	public static final String YOU_ARE_NOT_ADMIN_EXCEPTION = "You are not an Admin \nCan't delete user.";
 
 	// get
 	public List<User> getAllNotVerifiedUser() throws EmptyUserListException;

@@ -19,7 +19,9 @@ class UserRepositoryTest {
 
 	@Test
 	void test() {
-	assertEquals(true, true);	
+		boolean actual = true;
+		boolean found = true;
+	assertEquals(actual, found);	
 	}
 
 }

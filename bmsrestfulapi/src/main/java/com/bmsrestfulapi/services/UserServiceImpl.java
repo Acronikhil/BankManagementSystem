@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
 	private LoginRepository loginRepository;
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
+	
 
 	@Override
 	public List<User> getAllNotVerifiedUser() throws EmptyUserListException {
@@ -126,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	public String deleteUserById(Integer userId, Integer adminId)
 			throws UserNotFoundException, InvalidCredentialsException {
 		User admin = userRepository.getById(adminId);
-		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
 			if (userRepository.existsById(userId)) {
 				userRepository.deleteById(userId);
 				return "User deleted successfully!";
@@ -134,15 +135,14 @@ public class UserServiceImpl implements UserService {
 				throw new UserNotFoundException("No user exist with this Id");
 			}
 		} else {
-			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 	}
 
 	@Override
 	public String updateUser(User user, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
 		User admin = userRepository.getById(adminId);
-		System.out.println("-----------------" +admin+"-----------------------");
-		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
 			if (userRepository.existsById(user.getUserId())) {
 				userRepository.save(user);
 				return "User Updated successfully!";
@@ -150,14 +150,14 @@ public class UserServiceImpl implements UserService {
 				throw new UserNotFoundException("No user exist with this Id");
 			}
 		} else {
-			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 	}
 
 	@Override
 	public String getAllUsers(Integer adminId) throws EmptyUserListException, InvalidCredentialsException {
 		User admin = userRepository.getById(adminId);
-		if (admin.getRole().getRoleName().equalsIgnoreCase("admin")) {
+		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
 			List<User> userList = userRepository.findAll();
 			if (!userList.isEmpty()) {
 				return "List of Users: \n" + userList;
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 				throw new EmptyUserListException("No user exist in database");
 			}
 		} else {
-			throw new InvalidCredentialsException("You are not an Admin \nCan't perform this action");
+			throw new InvalidCredentialsException(UserService.YOU_ARE_NOT_ADMIN_EXCEPTION);
 		}
 
 	}
