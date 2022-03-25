@@ -22,6 +22,7 @@ import com.bmsrestfulapi.entities.Role;
 import com.bmsrestfulapi.entities.User;
 import com.bmsrestfulapi.exceptions.EmptyUserListException;
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
+import com.bmsrestfulapi.exceptions.NotLoggedInException;
 import com.bmsrestfulapi.exceptions.UserNotCreatedException;
 import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.services.UserService;
@@ -62,7 +63,7 @@ public class UserController {
 	 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUserById(@RequestParam Integer userId, Integer adminId)
-			throws UserNotFoundException, InvalidCredentialsException {
+			throws UserNotFoundException, InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
 	}
 
@@ -72,7 +73,7 @@ public class UserController {
 
 	@PutMapping("/update")
 	public ResponseEntity<String> updateUser(@RequestBody User user, @RequestParam(value = "adminId") Integer adminId)
-			throws UserNotFoundException, InvalidCredentialsException {
+			throws UserNotFoundException, InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
 	}
 
@@ -82,7 +83,7 @@ public class UserController {
 
 	@GetMapping("/getall/{adminId}")
 	public ResponseEntity<String> getAllUsers(@PathVariable Integer adminId)
-			throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException {
+			throws EmptyUserListException, InvalidCredentialsException, UserNotFoundException, NotLoggedInException {
 		return new ResponseEntity<>(userService.getAllUsers(adminId), HttpStatus.FOUND);
 	}
 
@@ -99,7 +100,7 @@ public class UserController {
 	 */
 	@PostMapping("/verify")
 	public ResponseEntity<String> verifyUser(@RequestParam Integer userId, Integer adminId)
-			throws InvalidCredentialsException, UserNotFoundException {
+			throws InvalidCredentialsException, UserNotFoundException, NotLoggedInException {
 		return new ResponseEntity<>(userService.verifyUser(userId, adminId), HttpStatus.OK);
 
 	}
@@ -109,7 +110,7 @@ public class UserController {
 	 */
 	@PostMapping("/checkbalance")
 	public ResponseEntity<String> checkBalance(@RequestParam Integer userId, Integer pin)
-			throws InvalidCredentialsException {
+			throws InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(userService.checkBalance(userId, pin), HttpStatus.OK);
 	}
 
@@ -118,7 +119,7 @@ public class UserController {
 	 */
 	@PostMapping("/withdrawmoney")
 	public ResponseEntity<String> withdrawMoney(@RequestParam Integer accountNo, Integer amount, Integer pin)
-			throws InvalidCredentialsException {
+			throws InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(userService.withdrawMoney(accountNo, amount, pin), HttpStatus.OK);
 	}
 
@@ -128,7 +129,7 @@ public class UserController {
 	 */
 	@PostMapping("/moneytransfer")
 	public ResponseEntity<String> transferMoney(@RequestParam Integer accountNo, Integer receiversAccountNo,
-			Integer amount, Integer pin) throws InvalidCredentialsException {
+			Integer amount, Integer pin) throws InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(userService.moneyTransfer(accountNo, receiversAccountNo, amount, pin),
 				HttpStatus.OK);
 	}

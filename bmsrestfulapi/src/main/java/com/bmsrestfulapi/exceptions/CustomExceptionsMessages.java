@@ -44,6 +44,8 @@ public class CustomExceptionsMessages {
 	public static final String WRONG_GENDER_INPUT = "Cannot create user!\nYou entered wrong gender.";
 	
 	public static final String INVALID_CREDENTIAL = "No user exist with this pin and account number.";
+	
+	public static final String YOU_ARE_NOT_LOGGEDIN = "You are not logged in please login first.";
 
 	private CustomExceptionsMessages() {
 	}

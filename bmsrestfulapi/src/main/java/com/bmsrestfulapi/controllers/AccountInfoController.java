@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bmsrestfulapi.exceptions.InvalidCredentialsException;
+import com.bmsrestfulapi.exceptions.NotLoggedInException;
 import com.bmsrestfulapi.exceptions.UserNotFoundException;
 import com.bmsrestfulapi.services.AccountInfoService;
 
@@ -24,7 +25,7 @@ public class AccountInfoController {
 	 */
 	@PostMapping("/getbalance")
 	public ResponseEntity<String> getBalanceByUserId(@RequestParam Integer userId, Integer adminId)
-			throws UserNotFoundException, InvalidCredentialsException {
+			throws UserNotFoundException, InvalidCredentialsException, NotLoggedInException {
 		return new ResponseEntity<>(accountInfoService.checkBalance(userId, adminId), HttpStatus.OK);
 	}
 
@@ -33,7 +34,7 @@ public class AccountInfoController {
 	 */
 	@PostMapping("/addmoney")
 	public ResponseEntity<String> addMoney(@RequestParam Integer accountNo, Integer adminId, Integer amount)
-			throws InvalidCredentialsException, UserNotFoundException {
+			throws InvalidCredentialsException, UserNotFoundException, NotLoggedInException {
 		return new ResponseEntity<>(accountInfoService.addMoney(accountNo, adminId, amount), HttpStatus.OK);
 	}
 

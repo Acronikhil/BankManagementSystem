@@ -18,5 +18,12 @@ public class LoginExceptionsAdvice {
 	String invalidLoginCredentials(InvalidLoginCredentialsException ex) {
 		return ex.getMessage();
 	}
+	
+	/* handling the exception when user is not loggedIn */
+	@ExceptionHandler(NotLoggedInException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String notLoggedInException(NotLoggedInException ex) {
+		return ex.getMessage();
+	}
 
 }
