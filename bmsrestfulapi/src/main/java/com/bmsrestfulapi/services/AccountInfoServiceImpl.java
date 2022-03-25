@@ -23,7 +23,8 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 	private UserRepository userRepository;
 
 	@Override
-	public String checkBalance(Integer userId, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
+	public String checkBalance(Integer userId, Integer adminId)
+			throws UserNotFoundException, InvalidCredentialsException {
 		if (userRepository.existsById(adminId)) {
 			User admin = userRepository.getById(adminId);
 			if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
@@ -38,11 +39,11 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 		} else {
 			throw new UserNotFoundException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
 		}
-		
+
 	}
 
 	@Override
-	public String addMoney(Integer accountNo , Integer userId  , Integer amount)
+	public String addMoney(Integer accountNo, Integer userId, Integer amount)
 			throws InvalidCredentialsException, UserNotFoundException {
 		if (userRepository.existsById(userId)) {
 			String role = roleRepository.getRole(userId).toLowerCase();

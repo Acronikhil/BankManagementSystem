@@ -36,8 +36,6 @@ public class Login {
 		super();
 
 	}
-	
-	
 
 	public Login(User user, AccountInfo ai) {
 		this.accountNo = ai.getAccountNo();
@@ -46,8 +44,6 @@ public class Login {
 		this.isVerified = false;
 		this.user = user;
 	}
-
-
 
 	public Login(Integer loginId, Integer accountNo, String password, boolean isLogin, boolean isVerified) {
 		super();
@@ -108,7 +104,8 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "\nLogin [loginId=" + loginId + ", accountNo=" + accountNo + ", password=" + password + ", userId=" + user.getUserId() + "]";
+		return "\nLogin [loginId=" + loginId + ", accountNo=" + accountNo + ", password=" + password + ", userId="
+				+ user.getUserId() + "]";
 	}
 
 }

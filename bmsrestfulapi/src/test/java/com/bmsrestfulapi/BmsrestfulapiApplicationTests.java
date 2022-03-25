@@ -13,7 +13,7 @@ class BmsrestfulapiApplicationTests {
 
 	@Autowired
 	private UserController userController;
-	
+
 	@Test
 	void contextLoads() {
 		assertThat(userController).isNotNull();

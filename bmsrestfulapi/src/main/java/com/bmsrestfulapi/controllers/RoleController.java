@@ -19,7 +19,7 @@ public class RoleController {
 	private RoleService roleService;
 
 	/*
-	 * Assigning role as admin to the user 
+	 * Assigning role as admin to the user
 	 */
 	@PostMapping("/assignrole")
 	public ResponseEntity<String> assignRole(@RequestParam Integer userId, String value)

@@ -66,7 +66,6 @@ public class UserController {
 		return new ResponseEntity<>(userService.deleteUserById(userId, adminId), HttpStatus.ACCEPTED);
 	}
 
-
 	/*
 	 * Admin updates user
 	 */
@@ -76,7 +75,6 @@ public class UserController {
 			throws UserNotFoundException, InvalidCredentialsException {
 		return new ResponseEntity<>(userService.updateUser(user, adminId), HttpStatus.OK);
 	}
-
 
 	/*
 	 * Admin gets list of users
@@ -100,7 +98,8 @@ public class UserController {
 	 * Admin verifies users by userId
 	 */
 	@PostMapping("/verify")
-	public ResponseEntity<String> verifyUser(@RequestParam Integer userId, Integer adminId) throws InvalidCredentialsException, UserNotFoundException {
+	public ResponseEntity<String> verifyUser(@RequestParam Integer userId, Integer adminId)
+			throws InvalidCredentialsException, UserNotFoundException {
 		return new ResponseEntity<>(userService.verifyUser(userId, adminId), HttpStatus.OK);
 
 	}
@@ -120,7 +119,7 @@ public class UserController {
 	@PostMapping("/withdrawmoney")
 	public ResponseEntity<String> withdrawMoney(@RequestParam Integer accountNo, Integer amount, Integer pin)
 			throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.withdrawMoney(pin, amount, accountNo), HttpStatus.OK);
+		return new ResponseEntity<>(userService.withdrawMoney(accountNo, amount, pin), HttpStatus.OK);
 	}
 
 	/*
@@ -130,7 +129,7 @@ public class UserController {
 	@PostMapping("/moneytransfer")
 	public ResponseEntity<String> transferMoney(@RequestParam Integer accountNo, Integer receiversAccountNo,
 			Integer amount, Integer pin) throws InvalidCredentialsException {
-		return new ResponseEntity<>(userService.moneyTransfer(pin, amount, accountNo, receiversAccountNo),
+		return new ResponseEntity<>(userService.moneyTransfer(accountNo, receiversAccountNo, amount, pin),
 				HttpStatus.OK);
 	}
 

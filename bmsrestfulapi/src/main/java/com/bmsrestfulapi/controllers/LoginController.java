@@ -15,24 +15,25 @@ import com.bmsrestfulapi.services.LoginService;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService loginService;
-	
-	
+
 	/*
 	 * Logging in user using PostMapping
 	 */
 	@PostMapping("/user")
-	public  ResponseEntity<String> loginUser(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
+	public ResponseEntity<String> loginUser(@RequestParam Integer accountNo, @RequestParam String password)
+			throws InvalidLoginCredentialsException, UserNotVerifiedException {
 		return new ResponseEntity<>(loginService.login(accountNo, password), HttpStatus.OK);
 	}
-   
+
 	/*
 	 * Logging in admin using PostMapping
 	 */
 	@PostMapping("/admin")
-	public  ResponseEntity<String> adminLogin(@RequestParam Integer accountNo, @RequestParam String password) throws InvalidLoginCredentialsException, UserNotVerifiedException {
+	public ResponseEntity<String> adminLogin(@RequestParam Integer accountNo, @RequestParam String password)
+			throws InvalidLoginCredentialsException, UserNotVerifiedException {
 		return new ResponseEntity<>(loginService.adminLogin(accountNo, password), HttpStatus.OK);
 	}
 
