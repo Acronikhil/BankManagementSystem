@@ -26,5 +26,10 @@ public interface AccountInfoRepository extends JpaRepository<AccountInfo, Intege
 	// fetch account information by account number
 	@Query("from AccountInfo ai where ai.accountNo=:accountNo")
 	public AccountInfo getAccountNo(@Param(value = "accountNo") Integer accountNo);
+	
+	// Retrieve User from data store by Pin to verify Pin
+		@Query("from AccountInfo ai where ai.user.pin=:pin and ai.accountNo=:accountNo")
+		public AccountInfo verifyPin(@Param(value = "pin") Integer pin, @Param(value = "accountNo") Integer accountNo);
 
+	
 }

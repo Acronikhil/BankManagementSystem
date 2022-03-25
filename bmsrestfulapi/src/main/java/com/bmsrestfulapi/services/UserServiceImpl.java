@@ -52,9 +52,15 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotCreatedException(CustomExceptionsMessages.PLEASE_CHECK_DETAILS);
 
 		} else {
-			User u = userRepository.save(user);
-			u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-			return "User created Successfully\nDetails:\n" + u;
+			if (user.getGender().equalsIgnoreCase("male") || user.getGender().equalsIgnoreCase("female")) {
+				user.setGender(user.getGender().toLowerCase());
+				User u = userRepository.save(user);
+				u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
+				return "User created Successfully\nDetails:\n" + u;
+			} else {
+				throw new UserNotCreatedException(CustomExceptionsMessages.WRONG_GENDER_INPUT);
+			}
+
 		}
 	}
 
@@ -90,10 +96,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String withdrawMoney(Integer accountNo, Integer amount, Integer pin) throws InvalidCredentialsException {
-		User user = userRepository.verifyPin(pin);
-		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
-		if (user != null && accountInfo != null && user.getPin().equals(pin)
-				&& accountInfo.getAccountNo().equals(accountNo)
+		AccountInfo accountInfo = accountInfoRepository.verifyPin(pin, accountNo);
+		if (accountInfo == null) {
+			throw new InvalidCredentialsException(CustomExceptionsMessages.INVALID_CREDENTIAL);
+		}
+		User user = accountInfo.getUser();
+
+		if (user != null && user.getPin().equals(pin) && accountInfo.getAccountNo().equals(accountNo)
 				&& accountInfo.getUser().getUserId().equals(user.getUserId())) {
 			Integer availableBalance = accountInfo.getCurrentBalance();
 			if (amount <= availableBalance) {
@@ -112,11 +121,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String moneyTransfer(Integer accountNo, Integer receiversAccountNo, Integer amount, Integer pin)
 			throws InvalidCredentialsException {
-		User user = userRepository.verifyPin(pin);
-		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
+		AccountInfo accountInfo = accountInfoRepository.verifyPin(pin, accountNo);
+		if (accountInfo == null) {
+			throw new InvalidCredentialsException(CustomExceptionsMessages.INVALID_CREDENTIAL);
+		}
+		User user = accountInfo.getUser();
 		AccountInfo receiverAccountInfo = accountInfoRepository.getAccountNo(receiversAccountNo);
 
-		if (user != null && accountInfo != null && receiverAccountInfo != null && user.getPin().equals(pin)
+		if (user != null && receiverAccountInfo != null && user.getPin().equals(pin)
 				&& accountInfo.getAccountNo().equals(accountNo)
 				&& receiverAccountInfo.getAccountNo().equals(receiversAccountNo)
 				&& accountInfo.getUser().getUserId().equals(user.getUserId())) {

@@ -41,6 +41,10 @@ public class CustomExceptionsMessages {
 
 	public static final String NO_ADMIN_EXIST_BY_ID = "No admin exist with this Id";
 
+	public static final String WRONG_GENDER_INPUT = "Cannot create user!\nYou entered wrong gender.";
+	
+	public static final String INVALID_CREDENTIAL = "No user exist with this pin and account number.";
+
 	private CustomExceptionsMessages() {
 	}
 
