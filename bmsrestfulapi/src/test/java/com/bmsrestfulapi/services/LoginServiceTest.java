@@ -49,10 +49,10 @@ class LoginServiceTest {
 		user.setLogin(l);
 		user.setAccountList(accountList);
 
-		User u =userRepository.save(user);
-		
+		User u = userRepository.save(user);
+
 		u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-		
+
 	}
 
 	@Test
@@ -65,18 +65,17 @@ class LoginServiceTest {
 		assertThrows(InvalidLoginCredentialsException.class, () -> loginService.login(12, "4"));
 	}
 
-	
 	@Test
 	void adminLoginTest1() throws UserNotVerifiedException {
-		
-		assertThrows(UserNotVerifiedException.class, () -> loginService.adminLogin(999, "1234"),"You are not admin, Please contact with BM.");
+
+		assertThrows(UserNotVerifiedException.class, () -> loginService.adminLogin(999, "1234"),
+				"You are not admin, Please contact with BM.");
 	}
 
 	@Test
 	void adminLoginTest2() throws InvalidCredentialsException {
 		assertThrows(InvalidLoginCredentialsException.class, () -> loginService.adminLogin(12, "4"));
 	}
-	
 
 	@AfterEach
 	void tearDown() {

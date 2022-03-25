@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 class UserRepositoryTest {
 
-	
 	@BeforeEach
 	void setUp() throws Exception {
 	}
@@ -21,7 +20,7 @@ class UserRepositoryTest {
 	void test() {
 		boolean actual = true;
 		boolean found = true;
-	assertEquals(actual, found);	
+		assertEquals(actual, found);
 	}
 
 }

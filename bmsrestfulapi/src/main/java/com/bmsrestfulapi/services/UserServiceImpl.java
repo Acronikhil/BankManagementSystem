@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			User u = userRepository.save(user);
 			u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-			return "User created Successfully\nDetails:\n" + user;
+			return "User created Successfully\nDetails:\n" + u;
 		}
 	}
 
@@ -93,7 +93,8 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
 		if (user != null && accountInfo != null && user.getPin().equals(pin)
-				&& accountInfo.getAccountNo().equals(accountNo)) {
+				&& accountInfo.getAccountNo().equals(accountNo)
+				&& accountInfo.getUser().getUserId().equals(user.getUserId())) {
 			Integer availableBalance = accountInfo.getCurrentBalance();
 			if (amount <= availableBalance) {
 				availableBalance -= amount;
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String moneyTransfer(Integer accountNo, Integer amount, Integer receiversAccountNo, Integer pin)
+	public String moneyTransfer(Integer accountNo, Integer receiversAccountNo, Integer amount, Integer pin)
 			throws InvalidCredentialsException {
 		User user = userRepository.verifyPin(pin);
 		AccountInfo accountInfo = accountInfoRepository.getAccountNo(accountNo);
@@ -117,7 +118,8 @@ public class UserServiceImpl implements UserService {
 
 		if (user != null && accountInfo != null && receiverAccountInfo != null && user.getPin().equals(pin)
 				&& accountInfo.getAccountNo().equals(accountNo)
-				&& receiverAccountInfo.getAccountNo().equals(receiversAccountNo)) {
+				&& receiverAccountInfo.getAccountNo().equals(receiversAccountNo)
+				&& accountInfo.getUser().getUserId().equals(user.getUserId())) {
 			Integer availableBalance = accountInfo.getCurrentBalance();
 			Integer receiversAvailableBalance = receiverAccountInfo.getCurrentBalance();
 			if (amount <= availableBalance) {
@@ -155,16 +157,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String updateUser(User user, Integer adminId) throws UserNotFoundException, InvalidCredentialsException {
-		User admin = userRepository.getById(adminId);
-		if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
-			if (userRepository.existsById(user.getUserId())) {
-				userRepository.save(user);
-				return "User Updated successfully!";
+		if (userRepository.existsById(adminId)) {
+			User admin = userRepository.getById(adminId);
+			if (admin.getRole().getRoleName().equalsIgnoreCase(UserService.ADMIN)) {
+				if (userRepository.existsById(user.getUserId())) {
+					userRepository.save(user);
+					return "User Updated successfully!";
+				} else {
+					throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
+				}
 			} else {
-				throw new UserNotFoundException(CustomExceptionsMessages.NO_USER_EXISTS_WITH_THIS_ID);
+				throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CANT_UPDATE_USER);
 			}
 		} else {
-			throw new InvalidCredentialsException(CustomExceptionsMessages.YOU_ARE_NOT_ADMIN_CANT_UPDATE_USER);
+			throw new InvalidCredentialsException(CustomExceptionsMessages.NO_ADMIN_EXIST_BY_ID);
 		}
 	}
 
