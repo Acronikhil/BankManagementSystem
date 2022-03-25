@@ -31,6 +31,8 @@ class LoginServiceTest {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	private Integer USERID = 0;
 
 	/* Creating a mock user data to add in database */
 	private final User user = new User(8, "Indore", "abcJuintTest", 123, LocalDate.now(), 8962132378L, "female");
@@ -52,6 +54,8 @@ class LoginServiceTest {
 		User u = userRepository.save(user);
 
 		u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
+		
+		USERID = u.getUserId();
 
 	}
 
@@ -80,7 +84,7 @@ class LoginServiceTest {
 	@AfterEach
 	void tearDown() {
 		System.out.println("Tearing Down");
-		userRepository.deleteAll();
+		userRepository.deleteById(USERID);
 	}
 
 }

@@ -31,6 +31,8 @@ class UserServiceTest {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	private Integer USERID = 0;
 
 	private final User user = new User(8, "Indore", "abcJuintTest", 123, LocalDate.now(), 8962132378L, "female");
 
@@ -49,7 +51,7 @@ class UserServiceTest {
 
 		User u = userRepository.save(user);
 		u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
-
+		USERID = u.getUserId();
 		System.out.println("--------------------\n" + u.getLogin() + "--------------" + u.getAccountList());
 	}
 
@@ -85,7 +87,7 @@ class UserServiceTest {
 	@AfterEach
 	void tearDown() {
 		System.out.println("Tearing Down");
-		userRepository.deleteAll();
+		userRepository.deleteById(USERID);
 	}
 
 }
