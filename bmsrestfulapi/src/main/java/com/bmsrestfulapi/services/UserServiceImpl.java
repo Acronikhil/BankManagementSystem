@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
 		} else {
 			if (user.getGender().equalsIgnoreCase("male") || user.getGender().equalsIgnoreCase("female")) {
+				user.setName(user.getName().toLowerCase());
 				user.setGender(user.getGender().toLowerCase());
 				User u = userRepository.save(user);
 				u.getLogin().setAccountNo(u.getAccountList().get(0).getAccountNo());
